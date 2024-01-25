@@ -1,0 +1,64 @@
+<body>
+  <div id="element"></div>
+</body>
+
+<script>
+  const mutiple = 20
+  const mouseOverContainer = document.getElementsByTagName("body")[0];
+  const element = document.getElementById("element");
+
+  function transformElement (x, y) {
+    let box = element.getBoundingClientRect();
+    let calcY = (x - box.x - (box.width / 2)) / mutiple;
+    let calcX = (y - box.y - (box.width / 2)) / mutiple * -1;
+
+    element.style.transform = "rotateY(" + calcY + "deg) " + "rotateX(" + calcX + "deg) ";
+  }
+
+  mouseOverContainer.addEventListener('mousemove', (e) => {
+    window.requestAnimationFrame(function () {
+      transformElement(e.clientX, e.clientY)
+    })
+  })
+
+  mouseOverContainer.addEventListener('mouseleave', (e) => {
+    window.requestAnimationFrame(function () {
+      element.style.transform = "rotateX(0) rotateY(0)";
+    })
+  })
+</script>
+
+<style>
+  body {
+    width: 95vw;
+    height: 98vh;
+    transform-style: preserve-3d;
+    perspective: 500px;
+  }
+
+  div {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    margin-top: 25vh;
+    background: url('saber.jpg');
+    background-position: center;
+    transform-style: preserve-3d;
+    transform: rotateX(15deg) rotateY(15deg);
+    transition: all .2s;
+  }
+
+  div::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(115deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.5 30%),
+        rgba(0, 0, 0, .5, 55%),
+        rgba(255, 255, 255, .5, 80%),
+        transparent 100%);
+    mix-blend-mode: color-dodge;
+  }
+</style>
